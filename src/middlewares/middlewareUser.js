@@ -2,7 +2,7 @@ const middlewareUser = (req, res, next) => {
   try {
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const { displayName, email, password, image } = req.body;
+    const { displayName, email, password } = req.body;
 
     if (displayName.length < 8) {
       return res.status(400)
