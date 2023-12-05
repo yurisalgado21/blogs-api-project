@@ -11,6 +11,7 @@ const CategoryModel = (sequelize, DataTypes) => {
             allowNull: false,
           }
     }, {
+        tableName: 'categories',
         timestamps: false,
     });
     return Category;
