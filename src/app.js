@@ -4,6 +4,7 @@ const { User } = require('./models');
 const { generateToken } = require('./utils/generateToken');
 const { middlewareLogin } = require('./middlewares/middlewareLogin');
 const { middlewareUser } = require('./middlewares/middlewareUser');
+const { authMiddleware } = require('./middlewares/auth.middleware');
 // ...
 
 const app = express();
@@ -16,6 +17,8 @@ app.get('/', (_request, response) => {
 app.use(express.json());
 
 // ...
+
+app.get('/user', authMiddleware, UserController.getAll);
 
 app.post('/login', middlewareLogin, async (req, res) => {
   const { email, password } = req.body;
