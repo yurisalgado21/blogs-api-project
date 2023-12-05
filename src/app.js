@@ -20,6 +20,8 @@ app.use(express.json());
 
 app.get('/user', authMiddleware, UserController.getAll);
 
+app.get('/user/:id', authMiddleware, UserController.getById);
+
 app.post('/login', middlewareLogin, async (req, res) => {
   const { email, password } = req.body;
  
