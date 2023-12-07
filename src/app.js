@@ -1,7 +1,7 @@
 const express = require('express');
 const UserController = require('./controllers/user.controller');
 const CategoryController = require('./controllers/category.contoller');
-const blogPostControllers = require('./controllers/blogPost.controller');
+const BlogPostControllers = require('./controllers/blogPost.controller');
 const { User } = require('./models');
 const { generateToken } = require('./utils/generateToken');
 const { middlewareLogin } = require('./middlewares/middlewareLogin');
@@ -27,6 +27,8 @@ app.get('/user/:id', authMiddleware, UserController.getById);
 
 app.get('/categories', authMiddleware, CategoryController.getAll);
 
+app.get('/post', authMiddleware, BlogPostControllers.getAll);
+
 app.post('/login', middlewareLogin, async (req, res) => {
   const { email, password } = req.body;
  
@@ -45,7 +47,7 @@ app.post('/user', middlewareUser, UserController.createUser);
 
 app.post('/categories', authMiddleware, CategoryController.createCategory);
 
-app.post('/post', authMiddleware, middlewarePost, blogPostControllers.createPost);
+app.post('/post', authMiddleware, middlewarePost, BlogPostControllers.createPost);
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
