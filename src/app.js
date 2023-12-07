@@ -29,6 +29,8 @@ app.get('/categories', authMiddleware, CategoryController.getAll);
 
 app.get('/post', authMiddleware, BlogPostControllers.getAll);
 
+app.get('/post/:id', authMiddleware, BlogPostControllers.getById);
+
 app.post('/login', middlewareLogin, async (req, res) => {
   const { email, password } = req.body;
  
