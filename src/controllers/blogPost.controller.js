@@ -43,8 +43,17 @@ const getById = async (req, res) => {
   return res.status(200).json(post);
 };
 
-module.exports = {
-  createPost,
-  getAll,
-  getById,
+const updatedPost = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+
+  if (!title || !content) {
+    return res.status(400).json({
+      message: 'Some required fields are missing',
+    }); 
+  }
+  const updatePost = await blogPostServices.updatedPost(id, { title, content });
+  return res.status(200).json(updatePost);
 };
+
+module.exports = { createPost, getAll, getById, updatedPost };

@@ -43,8 +43,18 @@ const getById = async (id) => {
   return post;
 };
 
-module.exports = {
-  createPost,
-  getAll,
-  getById,
+const updatedPost = async (id, { title, content }) => {
+  await BlogPost.update(
+    { title, content },
+    { where: { id } },
+  );
+  const post = await BlogPost.findOne({ where: { id }, 
+    attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'],
+    include: [{ model: User,
+      as: 'user',
+      attributes: ['id', 'displayName', 'email', 'image'] },
+    { model: Category, as: 'categories', through: { attributes: [] } }] });
+  return post;
 };
+
+module.exports = { createPost, getAll, getById, updatedPost };
