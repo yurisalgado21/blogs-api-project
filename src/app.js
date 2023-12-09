@@ -2,7 +2,7 @@ const express = require('express');
 const UserController = require('./controllers/user.controller');
 const CategoryController = require('./controllers/category.contoller');
 const BlogPostControllers = require('./controllers/blogPost.controller');
-const { User } = require('./models');
+const { User, BlogPost } = require('./models');
 const { generateToken } = require('./utils/generateToken');
 const { middlewareLogin } = require('./middlewares/middlewareLogin');
 const { middlewareUser } = require('./middlewares/middlewareUser');
@@ -54,6 +54,12 @@ app.post('/post', authMiddleware, middlewarePost, BlogPostControllers.createPost
 app.put('/post/:id', authMiddleware, middlewareUpdatedPost, BlogPostControllers.updatedPost);
 
 app.delete('/post/:id', authMiddleware, middlewareDeletePost, BlogPostControllers.deletePostById);
+
+app.delete('/user/me', authMiddleware, async (req, res) => {
+  const { id } = res.locals.user;
+  await BlogPost.destroy({ where: { id } });
+  return res.status(204).end();
+});
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
