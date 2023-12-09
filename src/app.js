@@ -7,9 +7,9 @@ const { generateToken } = require('./utils/generateToken');
 const { middlewareLogin } = require('./middlewares/middlewareLogin');
 const { middlewareUser } = require('./middlewares/middlewareUser');
 const { authMiddleware } = require('./middlewares/auth.middleware');
-const { middlewarePost, middlewareUpdatedPost } = require('./middlewares/middlewarePost');
+const { middlewarePost, 
+  middlewareUpdatedPost, middlewareDeletePost } = require('./middlewares/middlewarePost');
 // ...
-
 const app = express();
 
 // não remova ou mova esse endpoint
@@ -52,6 +52,8 @@ app.post('/categories', authMiddleware, CategoryController.createCategory);
 app.post('/post', authMiddleware, middlewarePost, BlogPostControllers.createPost);
 
 app.put('/post/:id', authMiddleware, middlewareUpdatedPost, BlogPostControllers.updatedPost);
+
+app.delete('/post/:id', authMiddleware, middlewareDeletePost, BlogPostControllers.deletePostById);
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`

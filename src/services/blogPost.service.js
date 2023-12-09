@@ -3,18 +3,15 @@ const { BlogPost, PostCategory, Category, User } = require('../models');
 const createPost = async ({ title, content, categoryIds, id }) => {
   const dateActual = new Date();
 
-  const { dataValues } = await BlogPost.create({
-    title,
+  const { dataValues } = await BlogPost.create({ title,
     content,
     userId: id,
     updated: dateActual,
     published: dateActual,
   });
   const postId = dataValues.id;
-
   const newPostCategories = categoryIds.map((categoryId) => ({ postId, categoryId }));
   await PostCategory.bulkCreate(newPostCategories);
-
   return { status: 'CREATED', data: dataValues };
 };
 
@@ -57,4 +54,7 @@ const updatedPost = async (id, { title, content }) => {
   return post;
 };
 
-module.exports = { createPost, getAll, getById, updatedPost };
+const deletePostById = async (id) => {
+  await BlogPost.destroy({ where: { id } });
+};
+module.exports = { createPost, getAll, getById, updatedPost, deletePostById };

@@ -21,7 +21,6 @@ const createPost = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 const getAll = async (_req, res) => {
   try {
     const allPosts = await blogPostServices.getAll();
@@ -31,7 +30,6 @@ const getAll = async (_req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 const getById = async (req, res) => {
   const { id } = req.params;
   const post = await blogPostServices.getById(id);
@@ -42,7 +40,6 @@ const getById = async (req, res) => {
   }
   return res.status(200).json(post);
 };
-
 const updatedPost = async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
@@ -55,5 +52,9 @@ const updatedPost = async (req, res) => {
   const updatePost = await blogPostServices.updatedPost(id, { title, content });
   return res.status(200).json(updatePost);
 };
-
-module.exports = { createPost, getAll, getById, updatedPost };
+const deletePostById = async (req, res) => {
+  const { id } = req.params;
+  await blogPostServices.deletePostById(id);
+  return res.status(204).end();
+};
+module.exports = { createPost, getAll, getById, updatedPost, deletePostById };
